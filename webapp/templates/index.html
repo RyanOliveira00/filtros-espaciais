@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% block title %}Início - Processamento de Imagens{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="gradient-bg text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="text-center fade-in">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6">
+                Filtros Espaciais para<br>Redução de Ruído
+            </h1>
+            <p class="text-xl md:text-2xl text-purple-100 mb-8 max-w-3xl mx-auto">
+                Aplicação interativa para análise e comparação de filtros espaciais em processamento de imagens
+            </p>
+            <div class="flex justify-center space-x-4">
+                <a href="/demo" class="bg-white text-purple-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+                    <i class="fas fa-play mr-2"></i>
+                    Experimentar Demo
+                </a>
+                <a href="/sobre" class="bg-purple-700 text-white px-8 py-3 rounded-lg font-semibold hover:bg-purple-800 transition">
+                    <i class="fas fa-book mr-2"></i>
+                    Saber Mais
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4">Funcionalidades</h2>
+        <p class="text-xl text-gray-600">Tudo que você precisa para processar e analisar imagens</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Feature 1 -->
+        <div class="bg-white p-6 rounded-xl shadow-lg card-hover">
+            <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                <i class="fas fa-upload text-purple-600 text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Upload de Imagens</h3>
+            <p class="text-gray-600">Faça upload de suas próprias imagens para processamento em tempo real</p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="bg-white p-6 rounded-xl shadow-lg card-hover">
+            <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                <i class="fas fa-sliders-h text-blue-600 text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">8 Filtros Diferentes</h3>
+            <p class="text-gray-600">Média, Gaussiano, Mediana e Moda em kernels 3×3 e 7×7</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="bg-white p-6 rounded-xl shadow-lg card-hover">
+            <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                <i class="fas fa-chart-line text-green-600 text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Métricas MSE/PSNR</h3>
+            <p class="text-gray-600">Análise quantitativa completa com gráficos interativos</p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="bg-white p-6 rounded-xl shadow-lg card-hover">
+            <div class="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                <i class="fas fa-images text-red-600 text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Comparação Visual</h3>
+            <p class="text-gray-600">Compare lado a lado os resultados de todos os filtros</p>
+        </div>
+    </div>
+</div>
+
+<!-- How it Works -->
+<div class="bg-gray-100 py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-800 mb-4">Como Funciona</h2>
+            <p class="text-xl text-gray-600">Processo simples em 3 etapas</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Step 1 -->
+            <div class="text-center">
+                <div class="bg-gradient-to-br from-purple-500 to-purple-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-3xl font-bold shadow-lg">
+                    1
+                </div>
+                <h3 class="text-2xl font-semibold mb-3">Faça Upload</h3>
+                <p class="text-gray-600">Envie sua imagem ou use uma imagem de exemplo</p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="text-center">
+                <div class="bg-gradient-to-br from-blue-500 to-blue-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-3xl font-bold shadow-lg">
+                    2
+                </div>
+                <h3 class="text-2xl font-semibold mb-3">Adicione Ruído</h3>
+                <p class="text-gray-600">Escolha entre ruído sal e pimenta ou gaussiano</p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="text-center">
+                <div class="bg-gradient-to-br from-green-500 to-green-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-3xl font-bold shadow-lg">
+                    3
+                </div>
+                <h3 class="text-2xl font-semibold mb-3">Analise Resultados</h3>
+                <p class="text-gray-600">Visualize filtros, métricas e gráficos interativos</p>
+            </div>
+        </div>
+
+        <div class="text-center mt-12">
+            <a href="/demo" class="inline-flex items-center bg-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-purple-700 transition">
+                <i class="fas fa-rocket mr-2"></i>
+                Começar Agora
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Filters Overview -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4">Filtros Implementados</h2>
+        <p class="text-xl text-gray-600">8 filtros espaciais para redução de ruído</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Filtro Média -->
+        <div class="bg-white p-8 rounded-xl shadow-lg">
+            <div class="flex items-center mb-4">
+                <div class="bg-purple-100 p-3 rounded-lg mr-4">
+                    <i class="fas fa-calculator text-purple-600 text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-semibold">Filtro de Média</h3>
+            </div>
+            <p class="text-gray-600 mb-4">Substitui cada pixel pela média dos vizinhos. Eficaz para ruído gaussiano, mas pode borrar bordas.</p>
+            <div class="flex space-x-2">
+                <span class="bg-gray-100 px-3 py-1 rounded text-sm">Kernel 3×3</span>
+                <span class="bg-gray-100 px-3 py-1 rounded text-sm">Kernel 7×7</span>
+            </div>
+        </div>
+
+        <!-- Filtro Gaussiano -->
+        <div class="bg-white p-8 rounded-xl shadow-lg">
+            <div class="flex items-center mb-4">
+                <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                    <i class="fas fa-wave-square text-blue-600 text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-semibold">Filtro Gaussiano</h3>
+            </div>
+            <p class="text-gray-600 mb-4">Média ponderada usando distribuição gaussiana. Suaviza mantendo mais detalhes que o filtro de média.</p>
+            <div class="flex space-x-2">
+                <span class="bg-gray-100 px-3 py-1 rounded text-sm">Kernel 3×3</span>
+                <span class="bg-gray-100 px-3 py-1 rounded text-sm">Kernel 7×7</span>
+            </div>
+        </div>
+
+        <!-- Filtro Mediana -->
+        <div class="bg-white p-8 rounded-xl shadow-lg">
+            <div class="flex items-center mb-4">
+                <div class="bg-green-100 p-3 rounded-lg mr-4">
+                    <i class="fas fa-sort-amount-down text-green-600 text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-semibold">Filtro de Mediana</h3>
+            </div>
+            <p class="text-gray-600 mb-4">Substitui pelo valor mediano dos vizinhos. Excelente para ruído sal e pimenta, preserva bordas.</p>
+            <div class="flex space-x-2">
+                <span class="bg-gray-100 px-3 py-1 rounded text-sm">Kernel 3×3</span>
+                <span class="bg-gray-100 px-3 py-1 rounded text-sm">Kernel 7×7</span>
+            </div>
+        </div>
+
+        <!-- Filtro Moda -->
+        <div class="bg-white p-8 rounded-xl shadow-lg">
+            <div class="flex items-center mb-4">
+                <div class="bg-red-100 p-3 rounded-lg mr-4">
+                    <i class="fas fa-chart-bar text-red-600 text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-semibold">Filtro de Moda</h3>
+            </div>
+            <p class="text-gray-600 mb-4">Substitui pelo valor mais frequente. Útil para imagens com padrões repetitivos.</p>
+            <div class="flex space-x-2">
+                <span class="bg-gray-100 px-3 py-1 rounded text-sm">Kernel 3×3</span>
+                <span class="bg-gray-100 px-3 py-1 rounded text-sm">Kernel 7×7</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="gradient-bg text-white py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-4xl font-bold mb-6">Pronto para Começar?</h2>
+        <p class="text-xl text-purple-100 mb-8">
+            Experimente agora a demonstração interativa e veja os filtros em ação!
+        </p>
+        <a href="/demo" class="inline-flex items-center bg-white text-purple-600 px-10 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition shadow-xl">
+            <i class="fas fa-flask mr-2"></i>
+            Ir para Demo
+            <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+    </div>
+</div>
+{% endblock %}

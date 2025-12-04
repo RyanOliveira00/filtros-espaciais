@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+
+{% block title %}Demo Interativa{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Header -->
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">
+            <i class="fas fa-flask text-purple-600 mr-2"></i>
+            Demonstração Interativa
+        </h1>
+        <p class="text-xl text-gray-600">
+            Faça upload de uma imagem e veja os filtros em ação
+        </p>
+    </div>
+
+    <!-- Step 1: Upload -->
+    <div id="step1" class="bg-white rounded-xl shadow-lg p-8 mb-8">
+        <div class="flex items-center mb-6">
+            <div class="bg-purple-600 text-white w-10 h-10 rounded-full flex items-center justify-center mr-4 font-bold">
+                1
+            </div>
+            <h2 class="text-2xl font-semibold">Upload de Imagem</h2>
+        </div>
+
+        <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-purple-500 transition cursor-pointer" id="dropZone">
+            <i class="fas fa-cloud-upload-alt text-6xl text-gray-400 mb-4"></i>
+            <p class="text-lg text-gray-600 mb-2">Arraste uma imagem ou clique para selecionar</p>
+            <p class="text-sm text-gray-500">Formatos aceitos: JPG, PNG (máx. 5MB)</p>
+            <input type="file" id="imageInput" accept="image/*" class="hidden">
+        </div>
+
+        <div id="uploadedImage" class="mt-6 hidden">
+            <h3 class="font-semibold mb-3">Imagem Carregada:</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <img id="originalPreview" class="rounded-lg shadow-md w-full" alt="Original">
+                </div>
+                <div class="flex flex-col justify-center">
+                    <p><strong>Arquivo:</strong> <span id="fileName"></span></p>
+                    <p><strong>Dimensões:</strong> <span id="imageDims"></span></p>
+                    <p class="text-green-600 mt-2">
+                        <i class="fas fa-check-circle mr-1"></i>
+                        Upload concluído!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 2: Configure Noise -->
+    <div id="step2" class="bg-white rounded-xl shadow-lg p-8 mb-8 hidden">
+        <div class="flex items-center mb-6">
+            <div class="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center mr-4 font-bold">
+                2
+            </div>
+            <h2 class="text-2xl font-semibold">Configurar Ruído</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label class="block mb-2 font-semibold">Tipo de Ruído:</label>
+                <div class="space-y-3">
+                    <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer hover:border-purple-500 transition">
+                        <input type="radio" name="noiseType" value="salt_pepper" checked class="mr-3">
+                        <div>
+                            <div class="font-semibold">Sal e Pimenta</div>
+                            <div class="text-sm text-gray-600">Pixels pretos e brancos aleatórios</div>
+                        </div>
+                    </label>
+                    <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer hover:border-purple-500 transition">
+                        <input type="radio" name="noiseType" value="gaussian" class="mr-3">
+                        <div>
+                            <div class="font-semibold">Gaussiano</div>
+                            <div class="text-sm text-gray-600">Ruído com distribuição normal</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div id="saltPepperControls">
+                <label class="block mb-2 font-semibold">Intensidade (%):</label>
+                <input type="range" id="saltPepperIntensity" min="1" max="10" value="2" class="w-full mb-2">
+                <p class="text-sm text-gray-600">Probabilidade: <span id="intensityValue">2</span>% por pixel</p>
+            </div>
+
+            <div id="gaussianControls" class="hidden">
+                <label class="block mb-2 font-semibold">Desvio Padrão (σ):</label>
+                <input type="range" id="gaussianSigma" min="5" max="50" value="25" class="w-full mb-2">
+                <p class="text-sm text-gray-600">Sigma: <span id="sigmaValue">25</span></p>
+            </div>
+        </div>
+
+        <button id="processBtn" class="mt-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition">
+            <i class="fas fa-cogs mr-2"></i>
+            Processar Imagem
+        </button>
+    </div>
+
+    <!-- Step 3: Results -->
+    <div id="step3" class="hidden">
+        <!-- Loading -->
+        <div id="loading" class="bg-white rounded-xl shadow-lg p-12 mb-8 text-center">
+            <div class="loading mx-auto mb-4"></div>
+            <p class="text-lg text-gray-600">Processando imagem com todos os filtros...</p>
+            <p class="text-sm text-gray-500 mt-2">Isso pode levar alguns segundos</p>
+        </div>
+
+        <!-- Results Container -->
+        <div id="results" class="hidden">
+            <!-- Comparação Original vs Ruidosa -->
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h2 class="text-2xl font-semibold mb-6">
+                    <i class="fas fa-images mr-2 text-purple-600"></i>
+                    Original vs Ruidosa
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-semibold mb-2">Imagem Original</h3>
+                        <img id="resultOriginal" class="rounded-lg shadow-md w-full" alt="Original">
+                    </div>
+                    <div>
+                        <h3 class="font-semibold mb-2">Com Ruído (<span id="noiseTypeLabel"></span>)</h3>
+                        <img id="resultNoisy" class="rounded-lg shadow-md w-full" alt="Ruidosa">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Best Filter -->
+            <div class="bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl shadow-lg p-8 mb-8">
+                <h2 class="text-2xl font-semibold mb-4">
+                    <i class="fas fa-trophy mr-2"></i>
+                    Melhor Filtro
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <p class="text-green-100 mb-1">Filtro:</p>
+                        <p class="text-2xl font-bold" id="bestFilterName">-</p>
+                    </div>
+                    <div>
+                        <p class="text-green-100 mb-1">MSE:</p>
+                        <p class="text-2xl font-bold" id="bestMSE">-</p>
+                    </div>
+                    <div>
+                        <p class="text-green-100 mb-1">PSNR:</p>
+                        <p class="text-2xl font-bold"><span id="bestPSNR">-</span> dB</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters Grid -->
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-semibold">
+                        <i class="fas fa-th mr-2 text-purple-600"></i>
+                        Todos os Filtros
+                    </h2>
+                    <button id="exportCSV" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                        <i class="fas fa-download mr-2"></i>
+                        Exportar CSV
+                    </button>
+                </div>
+                <div id="filtersGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Filters will be dynamically added here -->
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h2 class="text-2xl font-semibold mb-6">
+                    <i class="fas fa-chart-bar mr-2 text-purple-600"></i>
+                    Análise Quantitativa
+                </h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div id="chartMSE"></div>
+                    <div id="chartPSNR"></div>
+                </div>
+                <div class="mt-6">
+                    <div id="chartComparison"></div>
+                </div>
+            </div>
+
+            <!-- Metrics Table -->
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h2 class="text-2xl font-semibold mb-6">
+                    <i class="fas fa-table mr-2 text-purple-600"></i>
+                    Tabela de Métricas
+                </h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Filtro</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">MSE</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PSNR (dB)</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Qualidade</th>
+                            </tr>
+                        </thead>
+                        <tbody id="metricsTableBody" class="bg-white divide-y divide-gray-200">
+                            <!-- Rows will be dynamically added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/demo.js"></script>
+{% endblock %}
